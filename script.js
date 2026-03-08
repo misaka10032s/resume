@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", () => {
         "Loading kernel modules [OK]",
         "Mounting file systems [OK]",
         "Starting networking service [OK]",
-        "Fetching user profile: Yang, Chen-Kuan...",
+        "Fetching user profile: Yang, Zhen-Guan...",
         "Loading Vue3 components...",
         "Compiling C++ algorithms...",
         "Executing Python scripts...",
