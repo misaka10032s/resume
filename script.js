@@ -2,6 +2,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const bootScreen = document.getElementById("boot-screen");
     const mainContent = document.getElementById("main-content");
     const typewriterElement = document.getElementById("typewriter");
+    const skipBtn = document.getElementById("skip-btn");
 
     // Boot sequence messages
     const bootSequence = [
@@ -19,34 +20,51 @@ document.addEventListener("DOMContentLoaded", () => {
     let currentLine = 0;
     let currentChar = 0;
     let textHTML = "";
+    let isSkipped = false;
+    let typeTimeout;
+
+    function skipAnimation() {
+        if (isSkipped) return;
+        isSkipped = true;
+        clearTimeout(typeTimeout);
+        
+        bootScreen.style.opacity = "0";
+        setTimeout(() => {
+            bootScreen.classList.add("hidden");
+            mainContent.classList.remove("hidden");
+        }, 500);
+    }
 
     function typeWriter() {
+        if (isSkipped) return;
+
         if (currentLine < bootSequence.length) {
             if (currentChar < bootSequence[currentLine].length) {
                 textHTML += bootSequence[currentLine].charAt(currentChar);
                 typewriterElement.innerHTML = textHTML + '<span class="blink">_</span>';
                 currentChar++;
-                // Randomize typing speed for realism
-                setTimeout(typeWriter, Math.random() * 30 + 10); 
+                typeTimeout = setTimeout(typeWriter, Math.random() * 30 + 10); 
             } else {
                 textHTML += "<br>";
                 typewriterElement.innerHTML = textHTML + '<span class="blink">_</span>';
                 currentLine++;
                 currentChar = 0;
-                // Pause at the end of a line
-                setTimeout(typeWriter, Math.random() * 200 + 100);
+                typeTimeout = setTimeout(typeWriter, Math.random() * 200 + 100);
             }
         } else {
-            // Boot sequence finished, transition to main content
-            setTimeout(() => {
-                bootScreen.style.opacity = "0";
-                setTimeout(() => {
-                    bootScreen.classList.add("hidden");
-                    mainContent.classList.remove("hidden");
-                }, 500); // Wait for fade out
-            }, 500); // Wait a bit before fading
+            setTimeout(skipAnimation, 500);
         }
     }
+
+    // Listen for ESC key
+    window.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") {
+            skipAnimation();
+        }
+    });
+
+    // Listen for Click on skip button
+    skipBtn.addEventListener("click", skipAnimation);
 
     // Start the boot sequence
     setTimeout(typeWriter, 500);
