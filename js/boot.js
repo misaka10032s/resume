@@ -4,7 +4,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const typewriterElement = document.getElementById("typewriter");
     const skipBtn = document.getElementById("skip-btn");
 
-    // Boot sequence messages
     const bootSequence = [
         "Initialize system...",
         "Loading kernel modules [OK]",
@@ -27,7 +26,6 @@ document.addEventListener("DOMContentLoaded", () => {
         if (isSkipped) return;
         isSkipped = true;
         clearTimeout(typeTimeout);
-        
         bootScreen.style.opacity = "0";
         setTimeout(() => {
             bootScreen.classList.add("hidden");
@@ -37,13 +35,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function typeWriter() {
         if (isSkipped) return;
-
         if (currentLine < bootSequence.length) {
             if (currentChar < bootSequence[currentLine].length) {
                 textHTML += bootSequence[currentLine].charAt(currentChar);
                 typewriterElement.innerHTML = textHTML + '<span class="blink">_</span>';
                 currentChar++;
-                typeTimeout = setTimeout(typeWriter, Math.random() * 30 + 10); 
+                typeTimeout = setTimeout(typeWriter, Math.random() * 30 + 10);
             } else {
                 textHTML += "<br>";
                 typewriterElement.innerHTML = textHTML + '<span class="blink">_</span>';
@@ -56,19 +53,11 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    // Listen for ESC key
     window.addEventListener("keydown", (e) => {
-        if (e.key === "Escape") {
-            skipAnimation();
-        }
+        if (e.key === "Escape") skipAnimation();
     });
 
-    // Listen for Click on skip button
     skipBtn.addEventListener("click", skipAnimation);
-
-    // Start the boot sequence
-    setTimeout(typeWriter, 500);
-    
-    // Add smooth transition for boot screen
     bootScreen.style.transition = "opacity 0.5s ease";
+    setTimeout(typeWriter, 500);
 });

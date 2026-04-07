@@ -1,0 +1,12 @@
+# Private - do not publish
+interview-qa.md
+platform-resume.md
+data.txt
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/
