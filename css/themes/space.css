@@ -1,0 +1,534 @@
+/* ============================================================
+   SPACE THEME — deep cosmos, solar system, glassmorphism
+   ============================================================ */
+
+:root {
+    --sp-void:    #03040a;
+    --sp-deep:    #060914;
+    --sp-dark:    #0b1020;
+    --sp-glass:   rgba(255,255,255,0.05);
+    --sp-glass2:  rgba(255,255,255,0.08);
+    --sp-border:  rgba(255,255,255,0.12);
+    --sp-border2: rgba(255,255,255,0.2);
+    --sp-text:    #c8d6f0;
+    --sp-dim:     #6a7c9a;
+    --sp-gold:    #f0c060;
+    --sp-blue:    #60b0f0;
+    --sp-cyan:    #60e0f0;
+    --sp-purple:  #a060f0;
+    --sp-accent:  #7eb3f5;
+
+    --font-sans:  'Inter', system-ui, sans-serif;
+    --font-mono:  'Fira Code', monospace;
+}
+
+/* Boot */
+#boot-screen {
+    background: radial-gradient(ellipse at 30% 20%, #12203a 0%, #030610 60%, #000308 100%);
+    color: var(--sp-text);
+}
+#skip-btn { color: var(--sp-dim); }
+.space-boot-line { font-family: var(--font-sans); color: var(--sp-text); }
+.spb-icon   { font-size: 3rem; color: var(--sp-gold); margin-bottom: 0.4rem; }
+.spb-name   { font-size: 1.5rem; font-weight: 600; color: #e8f0ff; }
+.spb-role   { font-size: 0.88rem; color: var(--sp-dim); letter-spacing: 0.1em; }
+.spb-rule   { color: rgba(255,255,255,0.12); letter-spacing: 0.3em; margin: 0.6rem 0; }
+.spb-load   { font-size: 0.8rem; color: var(--sp-accent); font-family: var(--font-mono); }
+
+/* Theme button */
+#theme-btn {
+    background: rgba(126,179,245,0.08);
+    color: var(--sp-accent);
+    border: 1px solid rgba(126,179,245,0.25);
+}
+#theme-btn:hover { background: rgba(126,179,245,0.16); }
+
+/* ── Starfield ─────────────────────────────────────────────── */
+body {
+    background: var(--sp-void);
+    color: var(--sp-text);
+    font-family: var(--font-sans);
+    overflow-x: hidden;
+    position: relative;
+}
+
+#star-layer {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    /* JS fills in box-shadow */
+}
+#star-layer-2 {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    animation: starTwinkle 4s ease-in-out infinite alternate;
+}
+@keyframes starTwinkle {
+    0%   { opacity: 0.6; }
+    50%  { opacity: 1; }
+    100% { opacity: 0.7; }
+}
+
+/* ── Solar system — centred background with 3D orbits ──────── */
+#solar-system-bg {
+    position: fixed;
+    inset: 0;
+    z-index: 2;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+/* Scene origin is pinned to the sun position (upper-left) */
+.sp-solar-scene {
+    position: absolute;
+    left: 8vw;
+    top: 14vh;
+    /* 0×0 anchor; children use negative offsets to centre on sun */
+    perspective: 150vw;
+    perspective-origin: 50% 50%;
+    transform-style: preserve-3d;
+}
+
+/* Static orbit ellipse rings (no spin) */
+.sp-orbit-ring-static {
+    position: absolute;
+    left: calc(-1 * var(--r));
+    top:  calc(-1 * var(--r));
+    width:  calc(var(--r) * 2);
+    height: calc(var(--r) * 2);
+    border-radius: 50%;
+    border: 1px solid rgba(255,255,255,0.055);
+    transform: rotateX(72deg);
+    pointer-events: none;
+}
+
+/* Rotating arm — carries the planet around the sun */
+.sp-orbit-arm {
+    position: absolute;
+    left: calc(-1 * var(--r));
+    top:  calc(-1 * var(--r));
+    width:  calc(var(--r) * 2);
+    height: calc(var(--r) * 2);
+    transform-style: preserve-3d;
+    animation: sp-orbit-ccw var(--dur) linear infinite;
+    animation-delay: var(--delay);
+}
+
+/* CCW revolution — planet starts at top of arm (far point),
+   rotates counter-clockwise so it sweeps lower-left → bottom
+   (near, largest) → right → top (far, smallest) → left/behind sun */
+@keyframes sp-orbit-ccw {
+    from { transform: rotateX(72deg) rotateZ(0deg); }
+    to   { transform: rotateX(72deg) rotateZ(-360deg); }
+}
+
+/* Planet dot — positioned at top-centre of arm = far point at angle 0.
+   Use calc offsets instead of transform to avoid shape distortion in
+   the preserve-3d parent context. */
+.sp-planet-dot {
+    position: absolute;
+    top:  calc(0px - var(--psz) / 2);
+    left: calc(50% - var(--psz) / 2);
+    width:  var(--psz);
+    height: var(--psz);
+    border-radius: 50%;
+    background: radial-gradient(circle at 38% 32%, var(--pc1) 0%, var(--pc2) 100%);
+    box-shadow: 0 0 calc(var(--psz) * 2) var(--pc2);
+    animation: sp-planet-fade var(--dur) linear infinite;
+    animation-delay: var(--delay);
+}
+
+/* Fade out while planet is in the upper-left arc (behind sun glow).
+   Hide zone: ~17 %–32 % of cycle (≈ 61°–115° CCW from top).
+   Start angle 120° CCW = 33 % into cycle → planet is visible at t=0. */
+@keyframes sp-planet-fade {
+    0%   { opacity: var(--op); }
+    13%  { opacity: var(--op); }
+    17%  { opacity: 0; }
+    32%  { opacity: 0; }
+    33%  { opacity: var(--op); }
+    100% { opacity: var(--op); }
+}
+
+/* Sun glow bloom (painted before sun disk) */
+.sp-sun-glow {
+    position: absolute;
+    left: 0; top: 0;
+    width:  120px;
+    height: 120px;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow:
+        0 0 60px 36px rgba(255,220,110,0.55),
+        0 0 140px 80px rgba(255,170, 30,0.25),
+        0 0 320px 160px rgba(255,130, 10,0.12),
+        0 0 650px 320px rgba(255, 90,  0,0.05);
+}
+
+/* Sun disk — no shadow, just the radial gradient sphere */
+.sp-sun-orb {
+    position: absolute;
+    left: 0; top: 0;
+    width:  120px;
+    height: 120px;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    background: radial-gradient(circle at 38% 32%,
+        #fffce8 0%, #ffe878 25%, #ffb020 55%, #e06000 80%, #9c3800 100%);
+}
+
+/* Distant blur (nebula cloud effect) */
+#nebula {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    background:
+        radial-gradient(ellipse 50% 30% at 15% 70%, rgba(80,30,120,0.18) 0%, transparent 70%),
+        radial-gradient(ellipse 40% 25% at 85% 20%, rgba(20,60,120,0.15) 0%, transparent 70%),
+        radial-gradient(ellipse 30% 20% at 50% 50%, rgba(40,15,80,0.1) 0%, transparent 70%);
+    filter: blur(1px);
+}
+
+/* ── App layout ────────────────────────────────────────────── */
+#app {
+    position: relative;
+    z-index: 10;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem 5rem;
+}
+
+/* ── Header ────────────────────────────────────────────────── */
+.sp-header {
+    text-align: center;
+    padding: 4rem 0 2.5rem;
+    position: relative;
+}
+
+.sp-avatar {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    border: 2px solid rgba(126,179,245,0.4);
+    box-shadow:
+        0 0 0 4px rgba(126,179,245,0.08),
+        0 0 30px rgba(126,179,245,0.15);
+    display: block;
+    margin: 0 auto 1.2rem;
+}
+
+.sp-name {
+    font-size: clamp(1.5rem, 4vw, 2.2rem);
+    font-weight: 300;
+    color: #e8f0ff;
+    letter-spacing: 0.08em;
+    margin-bottom: 0.4rem;
+}
+.sp-name strong { font-weight: 600; }
+
+.sp-role {
+    font-size: 0.85rem;
+    color: var(--sp-dim);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    font-family: var(--font-mono);
+}
+
+/* ── Glass panel ───────────────────────────────────────────── */
+.glass-panel {
+    background: var(--sp-glass);
+    border: 1px solid var(--sp-border);
+    border-radius: 12px;
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    padding: 1.4rem 1.8rem;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 4px 32px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.08);
+}
+.glass-panel:hover {
+    border-color: var(--sp-border2);
+    background: var(--sp-glass2);
+}
+
+/* ── Section title ─────────────────────────────────────────── */
+.sp-section-title {
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--sp-accent);
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid rgba(126,179,245,0.15);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+/* ── Profile grid ──────────────────────────────────────────── */
+.sp-profile-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.5rem 2rem;
+}
+.sp-profile-row {
+    display: flex;
+    gap: 0.6rem;
+    align-items: baseline;
+    font-size: 0.83rem;
+}
+.sp-profile-label {
+    font-size: 0.68rem;
+    color: var(--sp-dim);
+    font-family: var(--font-mono);
+    white-space: nowrap;
+    min-width: 4rem;
+}
+.sp-profile-value { color: var(--sp-text); }
+.sp-profile-value a { color: var(--sp-accent); text-decoration: none; }
+
+/* ── Timeline ──────────────────────────────────────────────── */
+.sp-timeline {}
+.sp-tl-item {
+    display: grid;
+    grid-template-columns: 100px 1fr;
+    gap: 0 1.2rem;
+    margin-bottom: 1.6rem;
+}
+.sp-tl-date {
+    font-size: 0.66rem;
+    color: var(--sp-dim);
+    font-family: var(--font-mono);
+    padding-top: 0.1rem;
+    line-height: 1.5;
+}
+.sp-tl-body {}
+.sp-tl-company {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #ddeeff;
+    margin-bottom: 0.25rem;
+}
+.sp-tl-role {
+    display: inline-block;
+    font-size: 0.66rem;
+    background: rgba(96,176,240,0.1);
+    border: 1px solid rgba(96,176,240,0.25);
+    color: var(--sp-blue);
+    padding: 0.1rem 0.5rem;
+    border-radius: 20px;
+    margin-bottom: 0.6rem;
+}
+.sp-tl-sub {
+    font-size: 0.7rem;
+    color: var(--sp-dim);
+    margin-bottom: 0.6rem;
+}
+.sp-proj { margin-bottom: 0.8rem; }
+.sp-proj-title {
+    font-size: 0.82rem;
+    font-weight: 500;
+    color: var(--sp-cyan);
+    margin-bottom: 0.3rem;
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    flex-wrap: wrap;
+}
+.sp-proj-title i { opacity: 0.7; }
+.sp-badge {
+    font-size: 0.58rem;
+    background: rgba(96,224,240,0.08);
+    border: 1px solid rgba(96,224,240,0.2);
+    color: var(--sp-cyan);
+    padding: 0.05rem 0.4rem;
+    border-radius: 3px;
+    font-family: var(--font-mono);
+}
+.sp-proj ul { list-style: none; padding: 0; }
+.sp-proj ul li {
+    font-size: 0.8rem;
+    color: var(--sp-text);
+    padding: 0.18rem 0 0.18rem 1rem;
+    position: relative;
+    line-height: 1.65;
+}
+.sp-proj ul li::before {
+    content: "·";
+    position: absolute;
+    left: 0.2rem;
+    color: var(--sp-accent);
+}
+
+/* Expand */
+.sp-expand {
+    margin-top: 0.5rem;
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 6px;
+}
+.sp-expand summary {
+    padding: 0.35rem 0.7rem;
+    cursor: pointer;
+    font-size: 0.74rem;
+    color: var(--sp-dim);
+    list-style: none;
+}
+.sp-expand summary::-webkit-details-marker { display: none; }
+.sp-expand summary:hover { color: var(--sp-accent); }
+.sp-expand-body { padding: 0.6rem 0.8rem; }
+
+/* ── Project cards ─────────────────────────────────────────── */
+.sp-proj-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+    gap: 1rem;
+}
+.sp-proj-card {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 10px;
+    padding: 1.1rem;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+.sp-proj-card:hover {
+    border-color: rgba(126,179,245,0.35);
+    box-shadow: 0 0 24px rgba(126,179,245,0.08);
+}
+.sp-proj-card-header {
+    display: flex;
+    gap: 0.7rem;
+    align-items: flex-start;
+    margin-bottom: 0.6rem;
+}
+.sp-proj-icon {
+    font-size: 1.1rem;
+    color: var(--sp-gold);
+    flex-shrink: 0;
+    margin-top: 0.1rem;
+}
+.sp-proj-card-title {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: #ddeeff;
+    margin-bottom: 0.25rem;
+}
+.sp-proj-card-title a { color: #ddeeff; }
+.sp-proj-card-title a:hover { color: var(--sp-accent); }
+.sp-proj-card-badges { display: flex; flex-wrap: wrap; gap: 0.2rem; }
+.sp-proj-card > ul { list-style: none; padding: 0; margin-bottom: 0.5rem; }
+.sp-proj-card > ul li {
+    font-size: 0.78rem;
+    color: var(--sp-text);
+    padding: 0.18rem 0 0.18rem 1rem;
+    position: relative;
+    line-height: 1.65;
+}
+.sp-proj-card > ul li::before {
+    content: "·"; position: absolute; left: 0.2rem; color: var(--sp-accent);
+}
+
+/* ── AI Collab ─────────────────────────────────────────────── */
+.sp-quote {
+    font-size: 0.85rem;
+    color: var(--sp-text);
+    border-left: 2px solid var(--sp-purple);
+    padding: 0.6rem 1rem;
+    margin-bottom: 1rem;
+    line-height: 1.8;
+    opacity: 0.85;
+}
+.sp-ai-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.8rem;
+}
+.sp-ai-col {}
+.sp-ai-label {
+    font-size: 0.65rem;
+    font-weight: 600;
+    color: var(--sp-accent);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 0.4rem;
+    padding-bottom: 0.25rem;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+.sp-ai-col ul { list-style: none; padding: 0; }
+.sp-ai-col ul li {
+    font-size: 0.75rem;
+    color: var(--sp-text);
+    padding: 0.15rem 0 0.15rem 0.7rem;
+    position: relative;
+    opacity: 0.85;
+}
+.sp-ai-col ul li::before { content: "·"; position: absolute; left: 0; color: var(--sp-purple); }
+
+/* ── Skills ────────────────────────────────────────────────── */
+.sp-skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+    gap: 0.8rem;
+}
+.sp-skill-block {}
+.sp-skill-header {
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: var(--sp-gold);
+    letter-spacing: 0.06em;
+    margin-bottom: 0.4rem;
+    padding-bottom: 0.25rem;
+    border-bottom: 1px solid rgba(240,192,96,0.15);
+}
+.sp-skill-block ul { list-style: none; padding: 0; }
+.sp-skill-block ul li {
+    font-size: 0.76rem;
+    color: var(--sp-text);
+    padding: 0.15rem 0 0.15rem 0.7rem;
+    position: relative;
+    opacity: 0.85;
+}
+.sp-skill-block ul li::before { content: "·"; position: absolute; left: 0; color: var(--sp-gold); opacity: 0.6; }
+
+/* ── Achievements ──────────────────────────────────────────── */
+.sp-achieve-list { list-style: none; padding: 0; }
+.sp-achieve-list li {
+    font-size: 0.82rem;
+    color: var(--sp-text);
+    padding: 0.3rem 0 0.3rem 1.2rem;
+    position: relative;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+.sp-achieve-list li:last-child { border-bottom: none; }
+.sp-achieve-list li::before {
+    content: "★";
+    position: absolute;
+    left: 0;
+    color: var(--sp-gold);
+    font-size: 0.65rem;
+    top: 0.38rem;
+}
+
+/* ── Footer ────────────────────────────────────────────────── */
+.sp-footer {
+    text-align: center;
+    padding: 2rem 0 3rem;
+    font-size: 0.72rem;
+    color: var(--sp-dim);
+    font-family: var(--font-mono);
+}
+
+/* ── Responsive ────────────────────────────────────────────── */
+@media (max-width: 640px) {
+    .sp-proj-grid { grid-template-columns: 1fr; }
+    .sp-ai-grid   { grid-template-columns: 1fr; }
+    .sp-tl-item   { grid-template-columns: 1fr; }
+    .sp-profile-grid { grid-template-columns: 1fr; }
+    .sp-skills-grid { grid-template-columns: 1fr 1fr; }
+    #solar-system-bg { opacity: 0.25; }
+}

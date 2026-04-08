@@ -1,0 +1,456 @@
+/* ============================================================
+   CYBER THEME — terminal / hacker aesthetic
+   ============================================================ */
+
+:root {
+    --bg:         #0a0a0f;
+    --bg2:        #0f0f1a;
+    --bg3:        #141428;
+    --surface:    #1a1a2e;
+    --border:     #00ff9030;
+    --accent:     #00ff90;
+    --accent2:    #00d4ff;
+    --accent3:    #ff006e;
+    --text:       #e0e0e0;
+    --text-dim:   #888;
+    --font-mono:  'Fira Code', monospace;
+    --glow:       0 0 8px #00ff9060, 0 0 20px #00ff9030;
+    --glow2:      0 0 8px #00d4ff60, 0 0 20px #00d4ff30;
+}
+
+/* Boot screen colours */
+#boot-screen {
+    background: var(--bg);
+    color: var(--accent);
+}
+#skip-btn { color: var(--accent); }
+
+/* Theme button */
+#theme-btn {
+    background: rgba(0,255,144,0.08);
+    color: var(--accent);
+    border: 1px solid var(--accent);
+    box-shadow: var(--glow);
+}
+#theme-btn:hover {
+    background: rgba(0,255,144,0.18);
+    box-shadow: 0 0 16px #00ff9080;
+}
+
+/* ── Global ────────────────────────────────────────────────── */
+body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-mono);
+    overflow-x: hidden;
+}
+
+a { color: var(--accent2); text-decoration: none; }
+a:hover { text-shadow: var(--glow2); }
+
+/* ── Scanlines overlay ─────────────────────────────────────── */
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 9998;
+    background: repeating-linear-gradient(
+        to bottom,
+        transparent 0px,
+        transparent 3px,
+        rgba(0,0,0,0.08) 3px,
+        rgba(0,0,0,0.08) 4px
+    );
+}
+
+/* ── Layout ────────────────────────────────────────────────── */
+#app { max-width: 900px; margin: 0 auto; padding: 2rem 1.5rem; }
+
+/* ── Header ────────────────────────────────────────────────── */
+.cyber-header {
+    text-align: center;
+    padding: 3rem 0 2rem;
+    position: relative;
+}
+
+.cyber-avatar {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    border: 2px solid var(--accent);
+    box-shadow: var(--glow), 0 0 40px #00ff9020;
+    margin-bottom: 1.2rem;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.glitch {
+    font-size: clamp(1.4rem, 4vw, 2.2rem);
+    font-weight: 600;
+    color: var(--accent);
+    text-shadow: var(--glow);
+    position: relative;
+    display: inline-block;
+    animation: glitch-flicker 6s infinite;
+}
+@keyframes glitch-flicker {
+    0%, 94%, 100% { text-shadow: var(--glow); }
+    94.5% { text-shadow: 3px 0 var(--accent3), -3px 0 var(--accent2), var(--glow); filter: brightness(1.4); }
+    95%   { text-shadow: -4px 0 var(--accent3), 4px 0 var(--accent2), var(--glow); }
+    95.5% { text-shadow: var(--glow); filter: brightness(1); }
+    96%   { text-shadow: 2px 0 var(--accent3), -2px 0 var(--accent2), var(--glow); }
+    96.5% { text-shadow: var(--glow); }
+}
+
+/* RGB-split ghost layers — invisible by default, only shown mid-glitch */
+.glitch::before,
+.glitch::after {
+    content: attr(data-text);
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%;
+    opacity: 0;
+}
+.glitch::before {
+    color: var(--accent3);
+    clip-path: polygon(0 20%, 100% 20%, 100% 45%, 0 45%);
+    animation: glitch-top 5.5s infinite;
+}
+.glitch::after {
+    color: var(--accent2);
+    clip-path: polygon(0 58%, 100% 58%, 100% 80%, 0 80%);
+    animation: glitch-bot 7s infinite;
+}
+@keyframes glitch-top {
+    0%, 89%, 93%, 100% { opacity: 0; transform: none; }
+    89.5% { opacity: 1; transform: translateX(-5px) skewX(-3deg); }
+    91%   { opacity: 1; transform: translateX(5px)  skewX(2deg); }
+    92%   { opacity: 1; transform: translateX(-2px); }
+    92.5% { opacity: 0; }
+}
+@keyframes glitch-bot {
+    0%, 83%, 87%, 100% { opacity: 0; transform: none; }
+    83.5% { opacity: 1; transform: translateX(6px)  skewX(3deg); }
+    85%   { opacity: 1; transform: translateX(-6px) skewX(-2deg); }
+    86%   { opacity: 1; transform: translateX(3px); }
+    86.5% { opacity: 0; }
+}
+
+.cyber-role {
+    color: var(--text-dim);
+    font-size: 0.9rem;
+    margin-top: 0.5rem;
+}
+
+/* ── Code Block ────────────────────────────────────────────── */
+.code-block {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    margin-bottom: 2rem;
+    overflow: hidden;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.4);
+}
+.block-header {
+    background: var(--bg3);
+    padding: 0.5rem 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    border-bottom: 1px solid var(--border);
+}
+.dot { width: 12px; height: 12px; border-radius: 50%; display: inline-block; }
+.dot.red    { background: #ff5f57; }
+.dot.yellow { background: #febc2e; }
+.dot.green  { background: #28c840; }
+.filename   { color: var(--text-dim); font-size: 0.8rem; margin-left: 0.3rem; }
+.block-content { padding: 1.2rem 1.5rem; overflow-x: auto; }
+.block-content pre { font-size: 0.85rem; line-height: 1.8; }
+.key    { color: #81a1c1; }
+.string { color: #a3be8c; }
+.link a { color: var(--accent2); }
+
+/* ── Section ───────────────────────────────────────────────── */
+.section-container { margin-bottom: 2.5rem; }
+.section-title {
+    font-size: 1rem;
+    color: var(--accent);
+    text-shadow: var(--glow);
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 0.5rem;
+    margin-bottom: 1.2rem;
+    letter-spacing: 0.05em;
+}
+.section-title i { margin-right: 0.4rem; }
+
+/* ── Timeline ──────────────────────────────────────────────── */
+.timeline { border-left: 2px solid var(--border); padding-left: 1.5rem; }
+.timeline-item { position: relative; margin-bottom: 2rem; }
+.timeline-item::before {
+    content: "";
+    position: absolute;
+    left: -1.6rem;
+    top: 0.3rem;
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: var(--glow);
+}
+.timeline-date {
+    font-size: 0.75rem;
+    color: var(--accent2);
+    margin-bottom: 0.4rem;
+}
+.timeline-content h3 {
+    font-size: 1rem;
+    color: var(--text);
+    margin-bottom: 0.8rem;
+}
+.tag {
+    display: inline-block;
+    background: rgba(0,255,144,0.1);
+    border: 1px solid var(--accent);
+    color: var(--accent);
+    font-size: 0.7rem;
+    padding: 0.1rem 0.5rem;
+    border-radius: 3px;
+    margin-left: 0.4rem;
+}
+.sub-tag {
+    display: inline-block;
+    color: var(--text-dim);
+    font-size: 0.7rem;
+    margin-left: 0.3rem;
+}
+
+/* ── Project (in timeline) ─────────────────────────────────── */
+.project { margin-bottom: 1rem; }
+.project h4 {
+    font-size: 0.85rem;
+    color: var(--accent2);
+    margin-bottom: 0.4rem;
+}
+.project h4 i { margin-right: 0.3rem; }
+.project ul { list-style: none; padding: 0; }
+.project ul li {
+    padding: 0.2rem 0 0.2rem 1rem;
+    position: relative;
+    font-size: 0.82rem;
+    color: var(--text);
+    line-height: 1.6;
+}
+.project ul li::before {
+    content: "▸";
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+}
+.project code {
+    background: rgba(0,255,144,0.08);
+    border: 1px solid var(--border);
+    padding: 0.05rem 0.3rem;
+    border-radius: 3px;
+    font-size: 0.8rem;
+    color: var(--accent);
+}
+
+/* ── Tech Badge ────────────────────────────────────────────── */
+.tech-badge {
+    display: inline-block;
+    background: rgba(0,212,255,0.08);
+    border: 1px solid rgba(0,212,255,0.3);
+    color: var(--accent2);
+    font-size: 0.65rem;
+    padding: 0.1rem 0.4rem;
+    border-radius: 3px;
+    margin-left: 0.3rem;
+    vertical-align: middle;
+}
+
+/* ── Expand details ────────────────────────────────────────── */
+.expand-details {
+    margin-top: 0.6rem;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+}
+.expand-details summary {
+    padding: 0.4rem 0.8rem;
+    cursor: pointer;
+    font-size: 0.78rem;
+    color: var(--text-dim);
+    list-style: none;
+    background: rgba(255,255,255,0.02);
+}
+.expand-details summary::-webkit-details-marker { display: none; }
+.expand-details summary:hover { color: var(--accent); }
+.expand-hint { color: var(--accent); margin-left: 0.3rem; }
+.expand-details[open] .expand-hint { transform: rotate(90deg); display: inline-block; }
+.expand-content { padding: 0.8rem 1rem; }
+
+/* ── Projects Grid ─────────────────────────────────────────── */
+.projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+    gap: 1.2rem;
+}
+.project-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1.2rem;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+.project-card:hover {
+    border-color: var(--accent);
+    box-shadow: var(--glow);
+}
+.project-card-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.8rem;
+    margin-bottom: 0.8rem;
+}
+.project-icon {
+    font-size: 1.2rem;
+    color: var(--accent);
+    text-shadow: var(--glow);
+    flex-shrink: 0;
+    margin-top: 0.1rem;
+}
+.project-card-header h3 {
+    font-size: 0.95rem;
+    margin-bottom: 0.3rem;
+}
+.project-card-header h3 a { color: var(--text); }
+.project-card-header h3 a:hover { color: var(--accent2); }
+.project-badges { display: flex; flex-wrap: wrap; gap: 0.2rem; }
+.project-card > ul {
+    list-style: none;
+    padding: 0;
+    margin-bottom: 0.6rem;
+}
+.project-card > ul li {
+    padding: 0.2rem 0 0.2rem 1rem;
+    position: relative;
+    font-size: 0.8rem;
+    color: var(--text);
+    line-height: 1.6;
+}
+.project-card > ul li::before {
+    content: "▸";
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+}
+
+/* ── AI Collab ─────────────────────────────────────────────── */
+.ai-collab-quote {
+    border-left: 3px solid var(--accent);
+    padding: 0.8rem 1rem;
+    background: rgba(0,255,144,0.04);
+    border-radius: 0 4px 4px 0;
+    font-size: 0.85rem;
+    color: var(--text-dim);
+    line-height: 1.7;
+    margin-bottom: 1rem;
+}
+.prompt-symbol { color: var(--accent); margin-right: 0.4rem; }
+.ai-collab-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 1rem;
+}
+.ai-collab-item {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 0.8rem 1rem;
+}
+.ai-label {
+    display: block;
+    color: var(--accent);
+    font-size: 0.78rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    letter-spacing: 0.05em;
+}
+.ai-collab-item ul { list-style: none; padding: 0; }
+.ai-collab-item ul li {
+    font-size: 0.78rem;
+    color: var(--text);
+    padding: 0.15rem 0 0.15rem 0.8rem;
+    position: relative;
+}
+.ai-collab-item ul li::before {
+    content: "▸";
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+    font-size: 0.7rem;
+}
+
+/* ── Skills ────────────────────────────────────────────────── */
+.skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1rem;
+}
+.skill-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 0.8rem 1rem;
+}
+.skill-header {
+    color: var(--accent2);
+    font-size: 0.8rem;
+    font-weight: 600;
+    margin-bottom: 0.6rem;
+    padding-bottom: 0.4rem;
+    border-bottom: 1px solid var(--border);
+}
+.skill-card ul { list-style: none; padding: 0; }
+.skill-card ul li {
+    font-size: 0.78rem;
+    color: var(--text);
+    padding: 0.15rem 0 0.15rem 0.8rem;
+    position: relative;
+}
+.skill-card ul li::before {
+    content: "▸";
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+    font-size: 0.7rem;
+}
+
+/* ── Achievements ──────────────────────────────────────────── */
+.terminal-list { list-style: none; padding: 0; }
+.terminal-list li {
+    padding: 0.3rem 0;
+    font-size: 0.85rem;
+    color: var(--text);
+}
+.terminal-list .prompt { color: var(--accent); margin-right: 0.5rem; }
+.highlight { color: var(--accent2); font-weight: 600; }
+
+/* ── Footer ────────────────────────────────────────────────── */
+.cyber-footer {
+    text-align: center;
+    padding: 2rem 0 3rem;
+    color: var(--text-dim);
+    font-size: 0.8rem;
+}
+
+/* ── Responsive ────────────────────────────────────────────── */
+@media (max-width: 600px) {
+    .projects-grid { grid-template-columns: 1fr; }
+    .ai-collab-grid { grid-template-columns: 1fr; }
+    .skills-grid { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 400px) {
+    .skills-grid { grid-template-columns: 1fr; }
+}

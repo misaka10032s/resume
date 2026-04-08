@@ -1,0 +1,421 @@
+/* ============================================================
+   NORD THEME — two-column sidebar, clean Scandinavian aesthetic
+   ============================================================ */
+
+:root {
+    /* Nord Polar Night */
+    --n0: #2E3440;
+    --n1: #3B4252;
+    --n2: #434C5E;
+    --n3: #4C566A;
+    /* Nord Snow Storm */
+    --s0: #D8DEE9;
+    --s1: #E5E9F0;
+    --s2: #ECEFF4;
+    /* Nord Frost */
+    --f0: #8FBCBB;
+    --f1: #88C0D0;
+    --f2: #81A1C1;
+    --f3: #5E81AC;
+    /* Nord Aurora */
+    --a-red:    #BF616A;
+    --a-orange: #D08770;
+    --a-yellow: #EBCB8B;
+    --a-green:  #A3BE8C;
+    --a-purple: #B48EAD;
+
+    --bg:      var(--n0);
+    --bg2:     var(--n1);
+    --bg3:     var(--n2);
+    --surface: var(--n1);
+    --border:  var(--n3);
+    --text:    var(--s0);
+    --text-dim:#8892A0;
+    --accent:  var(--f1);
+    --accent2: var(--f2);
+    --accent3: var(--a-green);
+
+    --font-sans: 'Inter', system-ui, sans-serif;
+    --font-mono: 'Fira Code', monospace;
+
+    --sidebar-w: 260px;
+}
+
+/* Boot */
+#boot-screen { background: var(--n0); color: var(--f1); }
+#skip-btn    { color: var(--text-dim); }
+.nord-boot-line { font-family: var(--font-sans); color: var(--s1); }
+.nb-icon  { font-size: 2.5rem; margin-bottom: 0.5rem; }
+.nb-name  { font-size: 1.5rem; font-weight: 700; color: var(--s2); }
+.nb-role  { font-size: 0.9rem; color: var(--text-dim); }
+.nb-rule  { color: var(--n3); letter-spacing: 0.3em; margin: 0.5rem 0; }
+.nb-load  { font-size: 0.82rem; color: var(--f2); font-family: var(--font-mono); }
+
+/* Theme button */
+#theme-btn {
+    background: rgba(136,192,208,0.1);
+    color: var(--f1);
+    border: 1px solid rgba(136,192,208,0.3);
+}
+#theme-btn:hover { background: rgba(136,192,208,0.2); }
+
+/* ── Global ────────────────────────────────────────────────── */
+body {
+    background: var(--n0);
+    color: var(--text);
+    font-family: var(--font-sans);
+    overflow-x: hidden;
+}
+
+a { color: var(--f1); text-decoration: none; }
+a:hover { color: var(--s2); }
+
+/* ── Layout: sidebar + main ────────────────────────────────── */
+#app {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* ── Sidebar ────────────────────────────────────────────────── */
+.nord-sidebar {
+    width: var(--sidebar-w);
+    flex-shrink: 0;
+    background: var(--n1);
+    border-right: 1px solid var(--n2);
+    padding: 2rem 1.4rem;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1.4rem;
+}
+
+.nord-avatar {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    border: 2px solid var(--f1);
+    display: block;
+    margin: 0 auto 0.8rem;
+}
+
+.nord-name {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--s2);
+    text-align: center;
+    margin-bottom: 0.2rem;
+}
+.nord-name-en {
+    font-size: 0.72rem;
+    color: var(--text-dim);
+    text-align: center;
+    margin-bottom: 0.6rem;
+}
+.nord-role-badge {
+    display: block;
+    text-align: center;
+    font-size: 0.7rem;
+    font-family: var(--font-mono);
+    color: var(--f1);
+    background: rgba(136,192,208,0.1);
+    border: 1px solid rgba(136,192,208,0.25);
+    padding: 0.25rem 0.6rem;
+    border-radius: 20px;
+    margin: 0 auto 0.4rem;
+    width: fit-content;
+}
+
+.nord-sidebar-section {}
+.nord-sidebar-label {
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+    padding-bottom: 0.3rem;
+    border-bottom: 1px solid var(--n2);
+}
+.nord-sidebar-list { list-style: none; padding: 0; }
+.nord-sidebar-list li {
+    font-size: 0.78rem;
+    color: var(--text);
+    padding: 0.15rem 0;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+.nord-sidebar-list li i { color: var(--text-dim); width: 14px; font-size: 0.7rem; }
+.nord-sidebar-list li a { color: var(--f1); }
+
+.nord-skill-tag {
+    display: inline-block;
+    background: rgba(94,129,172,0.15);
+    border: 1px solid rgba(94,129,172,0.3);
+    color: var(--f2);
+    font-size: 0.65rem;
+    padding: 0.1rem 0.45rem;
+    border-radius: 3px;
+    margin: 0.15rem 0.1rem 0.15rem 0;
+}
+
+/* ── Main content ───────────────────────────────────────────── */
+.nord-main {
+    flex: 1;
+    padding: 2rem 2.5rem 4rem;
+    max-width: 780px;
+    overflow-x: hidden;
+}
+
+/* ── Section ────────────────────────────────────────────────── */
+.nord-section { margin-bottom: 2.5rem; }
+.nord-section-title {
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--f1);
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid var(--n2);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+.nord-section-title i { font-size: 0.8rem; }
+
+/* ── Timeline ───────────────────────────────────────────────── */
+.nord-timeline { padding: 0; }
+.nord-tl-item {
+    display: grid;
+    grid-template-columns: 110px 1fr;
+    gap: 0 1.2rem;
+    margin-bottom: 1.8rem;
+    position: relative;
+}
+.nord-tl-item::before {
+    content: "";
+    position: absolute;
+    left: 110px;
+    top: 6px;
+    bottom: -1.8rem;
+    width: 1px;
+    background: var(--n2);
+}
+.nord-tl-item:last-child::before { display: none; }
+.nord-tl-dot {
+    position: absolute;
+    left: calc(110px - 4px);
+    top: 5px;
+    width: 9px; height: 9px;
+    border-radius: 50%;
+    background: var(--f1);
+    border: 2px solid var(--n0);
+    z-index: 1;
+}
+.nord-tl-date {
+    font-size: 0.68rem;
+    color: var(--text-dim);
+    font-family: var(--font-mono);
+    padding-top: 0.1rem;
+    line-height: 1.5;
+}
+.nord-tl-body {}
+.nord-tl-company {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--s2);
+    margin-bottom: 0.3rem;
+}
+.nord-tl-role {
+    display: inline-block;
+    font-size: 0.68rem;
+    background: rgba(163,190,140,0.1);
+    border: 1px solid rgba(163,190,140,0.3);
+    color: var(--a-green);
+    padding: 0.1rem 0.5rem;
+    border-radius: 3px;
+    margin-bottom: 0.2rem;
+}
+.nord-tl-sub {
+    font-size: 0.7rem;
+    color: var(--text-dim);
+    margin-bottom: 0.7rem;
+}
+.nord-proj { margin-bottom: 0.8rem; }
+.nord-proj-title {
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--f0);
+    margin-bottom: 0.3rem;
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    flex-wrap: wrap;
+}
+.nord-proj-title i { opacity: 0.7; }
+.nord-badge {
+    font-size: 0.6rem;
+    background: rgba(143,188,187,0.12);
+    border: 1px solid rgba(143,188,187,0.3);
+    color: var(--f0);
+    padding: 0.05rem 0.4rem;
+    border-radius: 3px;
+}
+.nord-proj ul { list-style: none; padding: 0; }
+.nord-proj ul li {
+    font-size: 0.8rem;
+    color: var(--text);
+    padding: 0.18rem 0 0.18rem 1rem;
+    position: relative;
+    line-height: 1.65;
+}
+.nord-proj ul li::before {
+    content: "·";
+    position: absolute; left: 0.2rem;
+    color: var(--f1);
+}
+
+/* Expand */
+.nord-expand {
+    margin-top: 0.5rem;
+    border: 1px solid var(--n2);
+    border-radius: 3px;
+}
+.nord-expand summary {
+    padding: 0.35rem 0.7rem;
+    cursor: pointer;
+    font-size: 0.74rem;
+    color: var(--text-dim);
+    list-style: none;
+}
+.nord-expand summary::-webkit-details-marker { display: none; }
+.nord-expand summary:hover { color: var(--f1); }
+.nord-expand-body { padding: 0.6rem 0.8rem; }
+
+/* ── Project cards ─────────────────────────────────────────── */
+.nord-proj-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 1rem;
+}
+.nord-proj-card {
+    background: var(--n1);
+    border: 1px solid var(--n2);
+    border-radius: 6px;
+    padding: 1.1rem;
+    transition: border-color 0.2s;
+}
+.nord-proj-card:hover { border-color: var(--f2); }
+.nord-proj-card-header {
+    display: flex;
+    gap: 0.7rem;
+    align-items: flex-start;
+    margin-bottom: 0.6rem;
+}
+.nord-proj-icon {
+    font-size: 1.1rem;
+    color: var(--f1);
+    flex-shrink: 0;
+    margin-top: 0.1rem;
+}
+.nord-proj-card-title {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--s1);
+    margin-bottom: 0.25rem;
+}
+.nord-proj-card-title a { color: var(--s1); }
+.nord-proj-card-title a:hover { color: var(--f1); }
+.nord-proj-card-badges { display: flex; flex-wrap: wrap; gap: 0.2rem; }
+.nord-proj-card > ul { list-style: none; padding: 0; margin-bottom: 0.5rem; }
+.nord-proj-card > ul li {
+    font-size: 0.78rem;
+    color: var(--text);
+    padding: 0.18rem 0 0.18rem 1rem;
+    position: relative;
+    line-height: 1.65;
+}
+.nord-proj-card > ul li::before {
+    content: "·"; position: absolute; left: 0.2rem; color: var(--f1);
+}
+
+/* ── AI Collab ─────────────────────────────────────────────── */
+.nord-quote {
+    font-size: 0.85rem;
+    color: var(--text-dim);
+    border-left: 3px solid var(--f2);
+    padding: 0.6rem 1rem;
+    margin-bottom: 1rem;
+    line-height: 1.75;
+}
+.nord-ai-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.8rem;
+}
+.nord-ai-col {}
+.nord-ai-label {
+    font-size: 0.68rem;
+    font-weight: 700;
+    color: var(--f1);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 0.4rem;
+    padding-bottom: 0.25rem;
+    border-bottom: 1px solid var(--n2);
+}
+.nord-ai-col ul { list-style: none; padding: 0; }
+.nord-ai-col ul li {
+    font-size: 0.76rem;
+    color: var(--text);
+    padding: 0.15rem 0 0.15rem 0.7rem;
+    position: relative;
+}
+.nord-ai-col ul li::before { content: "·"; position: absolute; left: 0; color: var(--f2); }
+
+/* ── Achievements ──────────────────────────────────────────── */
+.nord-achieve-list { list-style: none; padding: 0; }
+.nord-achieve-list li {
+    font-size: 0.83rem;
+    color: var(--text);
+    padding: 0.3rem 0 0.3rem 1rem;
+    position: relative;
+    border-bottom: 1px solid var(--n2);
+}
+.nord-achieve-list li:last-child { border-bottom: none; }
+.nord-achieve-list li::before {
+    content: "▸"; position: absolute; left: 0;
+    color: var(--a-yellow); font-size: 0.7rem; top: 0.35rem;
+}
+
+/* ── Footer ────────────────────────────────────────────────── */
+.nord-footer {
+    font-size: 0.75rem;
+    color: var(--text-dim);
+    font-family: var(--font-mono);
+    padding: 1.5rem 0 0;
+    border-top: 1px solid var(--n2);
+}
+
+/* ── Responsive ────────────────────────────────────────────── */
+@media (max-width: 720px) {
+    #app { flex-direction: column; }
+    .nord-sidebar {
+        width: 100%;
+        height: auto;
+        position: static;
+        flex-direction: row;
+        flex-wrap: wrap;
+        padding: 1rem;
+        gap: 1rem;
+    }
+    .nord-main { padding: 1.5rem; }
+    .nord-ai-grid { grid-template-columns: 1fr; }
+    .nord-tl-item { grid-template-columns: 1fr; }
+    .nord-tl-item::before { display: none; }
+    .nord-tl-dot { display: none; }
+}

@@ -1,0 +1,146 @@
+/* ============================================================
+   BASE — reset, boot screen, theme switcher, shared utils
+   Theme-specific styles live in css/themes/*.css
+   ============================================================ */
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+    height: 100%;
+    font-size: 16px;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* ── Boot Screen ──────────────────────────────────────────── */
+#boot-screen {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: #0a0a0f;
+    transition: opacity 0.6s ease;
+}
+
+#boot-screen.hidden { display: none; }
+
+#typewriter {
+    font-family: 'Fira Code', monospace;
+    font-size: clamp(0.8rem, 2vw, 1rem);
+    line-height: 1.8;
+    max-width: 560px;
+    width: 90%;
+    text-align: left;
+}
+
+#skip-btn {
+    position: absolute;
+    bottom: 2rem;
+    right: 2rem;
+    font-family: 'Fira Code', monospace;
+    font-size: 0.75rem;
+    opacity: 0.5;
+    cursor: pointer;
+    user-select: none;
+    transition: opacity 0.2s;
+}
+#skip-btn:hover { opacity: 1; }
+
+/* Sakura boot lines */
+.sakura-boot-line {
+    opacity: 0;
+    transform: translateY(12px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+    text-align: center;
+    line-height: 1.6;
+}
+.sakura-boot-line.visible { opacity: 1; transform: translateY(0); }
+.sb-flower   { font-size: 2.8rem; margin-bottom: 0.5rem; }
+.sb-name     { font-size: 1.6rem; font-weight: 700; letter-spacing: 0.05em; }
+.sb-role     { font-size: 1rem; opacity: 0.75; margin-bottom: 0.5rem; }
+.sb-rule     { letter-spacing: 0.2em; opacity: 0.35; margin: 0.5rem 0; }
+.sb-loading  { font-size: 0.85rem; opacity: 0.6; }
+.sb-dots     {}
+
+/* Nord / Space boot lines */
+.nord-boot-line, .space-boot-line {
+    opacity: 0;
+    transform: translateY(12px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+    text-align: center;
+    line-height: 1.6;
+}
+.nord-boot-line.visible, .space-boot-line.visible { opacity: 1; transform: translateY(0); }
+
+/* ── Theme Switcher ───────────────────────────────────────── */
+#theme-switcher {
+    position: fixed;
+    top: 1rem;
+    right: 1rem;
+    z-index: 1000;
+}
+
+#theme-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.4rem 0.8rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.75rem;
+    font-family: 'Fira Code', monospace;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    transition: all 0.2s ease;
+    background: rgba(255,255,255,0.1);
+    color: inherit;
+    backdrop-filter: blur(8px);
+}
+#theme-btn:hover { transform: translateY(-1px); }
+
+/* ── App container ────────────────────────────────────────── */
+#app {
+    transition: opacity 0.3s ease;
+}
+#app.fading { opacity: 0; }
+
+/* ── Utility ──────────────────────────────────────────────── */
+.hidden { display: none !important; }
+
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50%       { opacity: 0; }
+}
+.blink { animation: blink 1s step-end infinite; }
+
+/* ── Expand / collapse transition ─────────────────────────── */
+details summary .expand-hint {
+    display: inline-block;
+    transition: transform 0.35s ease;
+}
+details[open]:not([data-closing]) summary .expand-hint {
+    transform: rotate(90deg);
+}
+
+/* ── Sakura fubuki (boot transition) ──────────────────────── */
+.fubuki-petal {
+    position: absolute;
+    border-radius: 50% 0 50% 0;
+    background: radial-gradient(circle at 35% 35%, #ffccd5, #f070a0);
+    opacity: 0;
+    pointer-events: none;
+    animation: fubuki-fly var(--fdur, 0.9s) ease-in-out forwards;
+}
+.fubuki-petal.petal-b {
+    border-radius: 0 50% 0 50%;
+    background: radial-gradient(circle at 35% 35%, #ffd8e4, #e88ab0);
+}
+@keyframes fubuki-fly {
+    0%   { opacity: 0;   transform: translate(0, 0) rotate(0deg); }
+    10%  { opacity: 1; }
+    80%  { opacity: 0.85; }
+    100% { opacity: 0;   transform: translate(var(--fx), var(--fy)) rotate(var(--fr)); }
+}

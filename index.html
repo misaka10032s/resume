@@ -4,15 +4,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>楊貞觀 | 前端工程師 | Resume</title>
-    <link rel="stylesheet" href="css/style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <!-- Apply saved theme before first paint (prevents FOUC) -->
+    <script>(function(){
+        var t = localStorage.getItem('resume-theme') || 'cyber';
+        document.documentElement.setAttribute('data-theme', t);
+        document.write('<link id="theme-css" rel="stylesheet" href="css/themes/' + t + '.css">');
+    })();</script>
+
+    <link rel="stylesheet" href="css/base.css">
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;600&family=Noto+Sans+TC:wght@400;700&family=Noto+Serif+TC:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
+
     <!-- Boot Screen -->
     <div id="boot-screen">
-        <div class="terminal-text" id="typewriter"></div>
-        <div id="skip-btn" class="skip-hint">Press [ESC] to skip</div>
+        <div id="typewriter"></div>
+        <div id="skip-btn">Press [ESC] to skip</div>
     </div>
 
     <!-- Theme Switcher -->
@@ -23,321 +32,18 @@
         </button>
     </div>
 
-    <!-- Main Content -->
-    <div id="main-content" class="hidden">
-        <header class="glitch-container">
-            <div class="avatar-container">
-                <img src="img/avatar.png" alt="Avatar" class="cyber-avatar">
-            </div>
-            <h1 class="glitch" data-text="楊貞觀 (Yang, Zhen-Guan)">楊貞觀 (Yang, Zhen-Guan)</h1>
-            <p class="role">&lt; Frontend Engineer /&gt;</p>
-        </header>
+    <!-- App (rebuilt by theme.js) -->
+    <div id="app" style="visibility:hidden"></div>
 
-        <main>
-            <!-- Profile -->
-            <section class="code-block">
-                <div class="block-header">
-                    <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
-                    <span class="filename">profile.json</span>
-                </div>
-                <div class="block-content">
-<pre><code>{
-  <span class="key">"name"</span>: <span class="string">"楊貞觀"</span>,
-  <span class="key">"email"</span>: <span class="link"><a href="mailto:codyjj1012@gmail.com">"codyjj1012@gmail.com"</a></span>,
-  <span class="key">"education"</span>: <span class="string">"台北科技大學 機電學士班 / 機械系"</span>,
-  <span class="key">"experience"</span>: <span class="string">"4.5 年（前端為主，曾任全端）"</span>,
-  <span class="key">"links"</span>: {
-    <span class="key">"github"</span>: <span class="link"><a href="https://github.com/misaka10032s" target="_blank">"github.com/misaka10032s"</a></span>,
-    <span class="key">"blog"</span>: <span class="link"><a href="https://misaka-site.co/" target="_blank">"misaka-site.co"</a></span>,
-    <span class="key">"game_tracker"</span>: <span class="link"><a href="https://msapi.misaka-site.co/" target="_blank">"msapi.misaka-site.co"</a></span>
-  }
-}</code></pre>
-                </div>
-            </section>
-
-            <!-- Experience -->
-            <section class="section-container">
-                <h2 class="section-title"><i class="fas fa-briefcase"></i> Experience.log</h2>
-
-                <div class="timeline">
-                    <!-- 光速未來 -->
-                    <div class="timeline-item">
-                        <div class="timeline-date">2024/12 — Present</div>
-                        <div class="timeline-content">
-                            <h3>光速未來有限公司 <span class="tag">前端工程師</span></h3>
-
-                            <div class="project">
-                                <h4><i class="fas fa-gamepad"></i> 遊戲管理後台 <span class="tech-badge">Vue3</span></h4>
-                                <ul>
-                                    <li>入職首日即可獨立投入，<strong>1 週</strong>完成原訂 2 週工作量進入測試。</li>
-                                    <li>分配任務均在期限 1/3–1/4 時間完成開發，進入 Stage QA 時程僅佔總期限 50–70%，<strong>整體效率約 2 倍</strong>於預估時程。</li>
-                                    <li>為既有元件新增功能，零破壞性修改，無回歸風險。</li>
-                                </ul>
-                            </div>
-
-                            <div class="project">
-                                <h4><i class="fas fa-mobile-alt"></i> H5 遊戲 PC 版前端 <span class="tech-badge">Vue3</span> <span class="tech-badge">Nuxt.js</span></h4>
-                                <ul>
-                                    <li>無 API 文件情況下，以手機版 H5 環境為參照，透過 Vue DevTools + 原始碼關鍵字搜尋<strong>獨立還原介接規格</strong>，處理動態字串拼接函數等非直覺呼叫方式。</li>
-                                    <li>主動介入 Figma 規格缺漏，與需求方確認後補齊，避免後期大幅返工。</li>
-                                    <li>重構並封裝重複邏輯，降低後續維護成本。</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- 元宏創新 -->
-                    <div class="timeline-item">
-                        <div class="timeline-date">2021/03 — 2024/12</div>
-                        <div class="timeline-content">
-                            <h3>元宏創新 <span class="tag">前端工程師</span> <span class="sub-tag">全端能力 (Vue3 / Python Django / MariaDB)</span></h3>
-
-                            <div class="project">
-                                <h4><i class="fas fa-folder-open"></i> 案件管理系統 <span class="tech-badge">Vue2</span></h4>
-                                <ul>
-                                    <li>設計 BD / Manager / Sales 三層管理視角：上層可派發案件至下層，各層僅能查看自身負責範圍，資訊隔離清晰。</li>
-                                    <li>自製邏輯搜尋元件，支援 <code>AND / OR</code> 複合條件組合，超越一般關鍵字搜尋限制。</li>
-                                </ul>
-                            </div>
-
-                            <div class="project">
-                                <h4><i class="fas fa-chart-line"></i> CRM 業務管理系統 <span class="tech-badge">Vue3</span> <span class="tech-badge">Django</span> <span class="tech-badge">MariaDB</span></h4>
-                                <ul>
-                                    <li>前後端個人獨立開發，<strong>2 週內</strong>完成（同步自學 Django 全端技術棧）。</li>
-                                    <li>實作案件進度追蹤、Excel 批次匯入等核心功能。</li>
-                                </ul>
-                            </div>
-
-                            <details class="expand-details">
-                                <summary>其他專案 <span class="expand-hint">▸</span></summary>
-                                <div class="expand-content">
-                                    <div class="project">
-                                        <h4><i class="fas fa-search"></i> 檢索系統 <span class="tech-badge">Vue3</span></h4>
-                                        <ul>
-                                            <li>前端 API 串接與資料呈現，邏輯組合搜尋、欄位伸縮表格。</li>
-                                        </ul>
-                                    </div>
-                                    <div class="project">
-                                        <h4><i class="fas fa-globe"></i> 企業官網更新 <span class="tech-badge">Vue3</span></h4>
-                                        <ul>
-                                            <li>主導會員中心、點數購買、資料服務等 6 個功能頁面前端開發。</li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </details>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Side Projects -->
-            <section class="section-container">
-                <h2 class="section-title"><i class="fas fa-code-branch"></i> Projects.md</h2>
-
-                <div class="projects-grid">
-                    <!-- Blog -->
-                    <div class="project-card">
-                        <div class="project-card-header">
-                            <span class="project-icon"><i class="fas fa-blog"></i></span>
-                            <div>
-                                <h3><a href="https://misaka-site.co/" target="_blank">個人部落格平台</a></h3>
-                                <div class="project-badges">
-                                    <span class="tech-badge">Vue3</span>
-                                    <span class="tech-badge">Flask</span>
-                                    <span class="tech-badge">Socket.IO</span>
-                                    <span class="tech-badge">GCP</span>
-                                </div>
-                            </div>
-                        </div>
-                        <ul>
-                            <li>整合 Socket.IO 實現即時多人棋盤遊戲平台（5 種棋類，1–10 人）。</li>
-                            <li>自建 GitHub Webhook CI/CD：Push 後自動觸發建置 → Migration → PM2 滾動重啟。</li>
-                            <li>Discord OAuth 登入、三語系 i18n（繁中 / 英 / 日）、TanStack Query 快取管理。</li>
-                        </ul>
-                        <details class="expand-details">
-                            <summary>技術深度 <span class="expand-hint">▸</span></summary>
-                            <div class="expand-content">
-                                <ul>
-                                    <li>useWindowSize composable 取代 media query，集中管理 RWD 斷點邏輯。</li>
-                                    <li>Room 系統含狀態機（WAITING / PLAYING / ENDING）+ threading.Lock 確保執行緒安全。</li>
-                                    <li>Flask-SQLAlchemy + Alembic Migration，Nginx + Certbot SSL，UFW 防火牆。</li>
-                                </ul>
-                            </div>
-                        </details>
-                    </div>
-
-                    <!-- MapleStory tracker -->
-                    <div class="project-card">
-                        <div class="project-card-header">
-                            <span class="project-icon"><i class="fas fa-chart-bar"></i></span>
-                            <div>
-                                <h3><a href="https://msapi.misaka-site.co/" target="_blank">遊戲角色數據平台</a></h3>
-                                <div class="project-badges">
-                                    <span class="tech-badge">Vue3</span>
-                                    <span class="tech-badge">FastAPI</span>
-                                    <span class="tech-badge">Redis</span>
-                                    <span class="tech-badge">TypeScript</span>
-                                </div>
-                            </div>
-                        </div>
-                        <ul>
-                            <li>MapleStory TW 角色數據分析平台，20+ 資料區塊視覺化、完整傷害計算引擎。</li>
-                            <li>Stale-While-Revalidate 快取 + 自製請求去重佇列，最大化外部 API 命中率。</li>
-                            <li>IntersectionObserver 懶載入 + Semaphore 並發控制，防止大清單記憶體溢出。</li>
-                        </ul>
-                        <details class="expand-details">
-                            <summary>技術深度 <span class="expand-hint">▸</span></summary>
-                            <div class="expand-content">
-                                <ul>
-                                    <li>全面 TypeScript（零 any），三語系 i18n，Redis 不可用時自動降級至純 DB 模式。</li>
-                                    <li>聯盟最佳化求解器（Web Worker 背景運算，不阻塞 UI）、SQLite WAL 模式。</li>
-                                    <li>malloc_trim() 主動釋放 C 層記憶體、串流游標查詢避免 fetchall() 爆記憶體。</li>
-                                </ul>
-                            </div>
-                        </details>
-                    </div>
-
-                    <!-- Minecraft RPG -->
-                    <div class="project-card">
-                        <div class="project-card-header">
-                            <span class="project-icon"><i class="fas fa-gamepad"></i></span>
-                            <div>
-                                <h3>Minecraft RPG 插件</h3>
-                                <div class="project-badges">
-                                    <span class="tech-badge">Java 21</span>
-                                    <span class="tech-badge">Paper API</span>
-                                    <span class="tech-badge">HikariCP</span>
-                                </div>
-                            </div>
-                        </div>
-                        <ul>
-                            <li>189 個類別、28 個模組，多資料庫抽象層（SQLite / MySQL / PostgreSQL 可切換）。</li>
-                            <li>自製遞歸下降公式解析器，解析 <code>ATK*1.5+MATK/2</code> 等動態傷害公式。</li>
-                            <li>嵌入式 REST API + WebSocket，Strategy / Factory / Chain of Responsibility 設計模式。</li>
-                        </ul>
-                    </div>
-
-                    <!-- Sword Saga Online -->
-                    <div class="project-card">
-                        <div class="project-card-header">
-                            <span class="project-icon"><i class="fas fa-dragon"></i></span>
-                            <div>
-                                <h3>線上文字 RPG (Sword Saga)</h3>
-                                <div class="project-badges">
-                                    <span class="tech-badge">.NET 8</span>
-                                    <span class="tech-badge">Vue3</span>
-                                    <span class="tech-badge">PostgreSQL</span>
-                                </div>
-                            </div>
-                        </div>
-                        <ul>
-                            <li>PostgreSQL 行級鎖 + ACID 事務確保高併發交易原子性，杜絕超賣與物品複製漏洞。</li>
-                            <li>向量代數鍛造系統（極坐標相位疊加演算法）、常態分佈品質機率判定。</li>
-                            <li>純手工 SCSS Glassmorphism UI + 明暗主題切換，不依賴 CSS 框架。</li>
-                        </ul>
-                    </div>
-                </div>
-            </section>
-
-            <!-- AI Collaboration -->
-            <section class="section-container">
-                <h2 class="section-title"><i class="fas fa-robot"></i> AI_Collab.md</h2>
-                <div class="ai-collab-block">
-                    <div class="ai-collab-quote">
-                        <span class="prompt-symbol">▎</span>
-                        「我把 AI 定位為需要被 code review 的執行工程師 — 我負責架構決策與品質驗收，AI 負責快速實作與重複性工作。以此模式，一個人完成從規格→開發→測試→部署→維護的完整工程循環。」
-                    </div>
-                    <div class="ai-collab-grid">
-                        <div class="ai-collab-item">
-                            <span class="ai-label">我做什麼</span>
-                            <ul>
-                                <li>架構設計、技術選型</li>
-                                <li>規格文件（CLAUDE.md / GEMINI.md）</li>
-                                <li>驗證 AI 輸出、diff review</li>
-                                <li>Bug 假設、範圍縮小</li>
-                            </ul>
-                        </div>
-                        <div class="ai-collab-item">
-                            <span class="ai-label">AI 做什麼</span>
-                            <ul>
-                                <li>依規格快速實作</li>
-                                <li>重複性內容批次生成</li>
-                                <li>單元測試撰寫</li>
-                                <li>協助 Bug 追蹤與驗證</li>
-                            </ul>
-                        </div>
-                        <div class="ai-collab-item">
-                            <span class="ai-label">品質保證</span>
-                            <ul>
-                                <li>Git 小步 commit，隨時可回滾</li>
-                                <li>每次 AI 輸出後人工 review diff</li>
-                                <li>視覺 + 功能驗收，計算邏輯必附 Vitest</li>
-                                <li>沙盒權限控制，刪除 / commit 需人工確認</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Skills -->
-            <section class="section-container">
-                <h2 class="section-title"><i class="fas fa-code"></i> Skills.md</h2>
-                <div class="skills-grid">
-                    <div class="skill-card">
-                        <div class="skill-header">JS / TS Ecosystem</div>
-                        <ul>
-                            <li>Vue 3 Composition API + TypeScript</li>
-                            <li>Vue Router / Pinia / TanStack Query / i18n</li>
-                            <li>Nuxt.js + Vite + UnoCSS / Tailwind CSS</li>
-                            <li>Socket.IO、自製 Chrome Extension</li>
-                        </ul>
-                    </div>
-                    <div class="skill-card">
-                        <div class="skill-header">Backend / Infra</div>
-                        <ul>
-                            <li>Python Flask + FastAPI + SQLAlchemy</li>
-                            <li>Django + MariaDB、.NET 8 (C#)</li>
-                            <li>GCP VM + Nginx 反向代理 + PM2</li>
-                            <li>自建 GitHub Webhook CI/CD</li>
-                        </ul>
-                    </div>
-                    <div class="skill-card">
-                        <div class="skill-header">C / C++ / Java</div>
-                        <ul>
-                            <li>Socket、OpenCV、Thread 實作</li>
-                            <li>Drogon 網站伺服器</li>
-                            <li>Java 21 + Paper API（Minecraft 插件）</li>
-                            <li>國中自學，高中市級資訊競賽佳作</li>
-                        </ul>
-                    </div>
-                    <div class="skill-card">
-                        <div class="skill-header">Others</div>
-                        <ul>
-                            <li>AI 輔助開發（Gemini CLI / Claude Code）</li>
-                            <li>OAuth（Discord / Line）、WebSocket</li>
-                            <li>MySQL / SQLite / PostgreSQL / Redis</li>
-                            <li>高斯模糊、FFT、JPEG 編解碼實作</li>
-                        </ul>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Achievements -->
-            <section class="section-container">
-                <h2 class="section-title"><i class="fas fa-award"></i> Achievements.txt</h2>
-                <ul class="terminal-list">
-                    <li><span class="prompt">></span> 103、104 學年度 高中學科能力競賽資訊科 <span class="highlight">佳作</span></li>
-                    <li><span class="prompt">></span> 日語檢定 JLPT <span class="highlight">N2</span> 合格</li>
-                </ul>
-            </section>
-        </main>
-
-        <footer>
-            <p>System.exit(0); // <span class="blink">_</span></p>
-        </footer>
-    </div>
-
-    <script src="js/boot.js"></script>
+    <!-- Theme modules (must load before theme.js) -->
+    <script src="js/data.js"></script>
+    <script src="js/themes/cyber.js"></script>
+    <script src="js/themes/sakura.js"></script>
+    <script src="js/themes/nord.js"></script>
+    <script src="js/themes/space.js"></script>
+    <!-- Core -->
     <script src="js/theme.js"></script>
+    <script src="js/boot.js"></script>
+
 </body>
 </html>
