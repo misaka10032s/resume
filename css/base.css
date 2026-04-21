@@ -144,3 +144,7 @@ details[open]:not([data-closing]) summary .expand-hint {
     80%  { opacity: 0.85; }
     100% { opacity: 0;   transform: translate(var(--fx), var(--fy)) rotate(var(--fr)); }
 }
+
+li {
+    list-style: inside;
+}
