@@ -329,6 +329,7 @@ a:hover { text-decoration: underline; }
 .sk-expand summary::-webkit-details-marker { display: none; }
 .sk-expand summary:hover { color: var(--accent); }
 .sk-expand-content { padding: 0.6rem 0.8rem; }
+.sk-expand-content ul { list-style: inside; }
 
 /* ── Project cards ─────────────────────────────────────────── */
 .sk-projects-grid {
