@@ -14,7 +14,7 @@ window.RESUME_DATA = {
         {
             company:  "光速未來有限公司",
             role:     "前端工程師",
-            period:   "2024/12 — Present",
+            period:   "2024/12 — 2025/09",
             projects: [
                 {
                     icon:  "fas fa-gamepad",
