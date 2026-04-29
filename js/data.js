@@ -47,7 +47,7 @@ window.RESUME_DATA = {
             projects: [
                 {
                     icon:  "fas fa-folder-open",
-                    title: "案件管理系統",
+                    title: "CRM 業務管理系統",
                     badges: ["Vue2"],
                     bullets: [
                         "設計 BD / Manager / Sales 三層管理視角：上層可派發案件至下層，各層僅能查看自身負責範圍，資訊隔離清晰。",
@@ -56,7 +56,7 @@ window.RESUME_DATA = {
                 },
                 {
                     icon:  "fas fa-chart-line",
-                    title: "CRM 業務管理系統",
+                    title: "案件管理系統",
                     badges: ["Vue3", "Django", "MariaDB"],
                     bullets: [
                         "前後端個人獨立開發，<strong>2 週內</strong>完成（同步自學 Django 全端技術棧）。",
